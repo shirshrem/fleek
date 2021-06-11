@@ -1,26 +1,71 @@
-// client/src/App.js
+import React from 'react'
+import "./index.css";
+import Navbar from "./Navbar";
+import Home from "./Home";
+import Search from "./Search";
+import About from "./About";
+import MyList from "./MyList";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { useState } from "react";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core";
+import RandomMovieGenerator from "./RandomMovieGenerator";
+import RandomMoviePreferences from "./RandomMoviePreferences";
+import Logo from "./MainLogo.png";
 
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+const theme = createMuiTheme({
+  pallete: {
+    primary: {
+      main: "#028476",
+    },
+    secondary: { main: "#028476" },
+  },
+});
 
 function App() {
-  const [data, setData] = React.useState(null);
-
-  React.useEffect(() => {
-    fetch("/api")
-      .then((res) => res.json())
-      .then((data) => setData(data.message));
-  }, []);
+  const [myList, setMyList] = useState([]);
+  const [torrents, setTorrents] = useState([]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading..." : data}</p>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+
+      <Router>
+        <div className="App">
+
+          <Navbar />
+          <img className = "Logo" src={Logo} alt=""/>
+
+          <div className="content"></div>
+          {/* Shir:  stops at the first mach! */}
+
+          <Switch>
+            <Route exact path="/Home">
+              <Home />
+            </Route>
+            <Route exact path="/About">
+              <About />
+            </Route>
+            <Route exact path="/Search">
+              <Search myList={myList} setMyList={setMyList} />
+            </Route>
+            <Route exact path="/MyList">
+              <MyList
+                myList={myList}
+                setMyList={setMyList}
+                torrents={torrents}
+                setTorrents={setTorrents}
+              />
+            </Route>
+
+            <Route exact path="/RandomMoviePreferences">
+              <RandomMoviePreferences />
+            </Route>
+            <Route exact path="/RandomMovieGenerator">
+              <RandomMovieGenerator myList={myList} setMyList={setMyList} />
+            </Route>
+          </Switch>
+        </div>
+      </Router>
+    </ThemeProvider>
   );
 }
-
 export default App;

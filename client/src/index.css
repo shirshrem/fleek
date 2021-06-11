@@ -1,13 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@700&family=Open+Sans&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=RocknRoll+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Economica&display=swap');
+
+* {
+  /* margin: 10; */
+  color: #4f4846;
+  font-family: "Open Sans", sans-serif;
+  box-sizing: border-box;
+}
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #fdf8f5;
+}
+.Logo{
+  background-color: #fdf8f5;
+
+
+}
+.container {
+  margin: auto;
+  max-width: 1000px;
+  padding: 10px;
+
+}
+.navbar {
+  padding: 10px;
+  display: flex;
+  margin: 0 auto;
+  background-color: #fdf8f5;
+  border-bottom: 0px solid #fdf8f5;
+}
+.navbar h1 {
+  color: #266150;
+}
+.navbar .links {
+  margin-left: auto;
+}
+.navbar a {
+  color: #c7745e;
+  margin-left: 16px;
+  text-decoration: NONE;
+  padding: 6px;
+  font-size: 25px;
+  font-family: 'Economica', sans-serif;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.navbar a:hover {
+  color: #4f4846;
 }
+.content {
+  background-color: #fdf8f5;
+  margin: 40px auto;
+  padding: 20px;
+}
+code {
+  font-family: "Open Sans", sans-serif;
+}l
+
+section {
+  padding: 15px;
+}
+
+.searchbox {
+  display: block;
+  width: 100%;
+  padding: 20px;
+
+  border: none;
+  outline: none;
+  background: none;
+
+  background-color: #e8cebf;
+
+  color: #4f4846;
+  font-size: 5px;
+  font-weight: 5;
+
+  transition: 0.4s ease-out;
+}
+
+.input {
+  max-width: 1000px;
+}
+
+/* 
+Makeup Tan: #DDAF94
+
+Blush: #E8CEBF
+
+Complimentary Green: #266150
+
+Dark Highlight: #4F4846
+
+Lightly Off White: #FDF8F5 */
