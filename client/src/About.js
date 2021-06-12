@@ -1,8 +1,8 @@
-import React from 'react'
+import React from "react";
 const About = () => {
   return (
     <div>
-      <h2>Coming Soon...</h2>
+      <img className="comingsoon" src="./comingsoon.png" alt="" />
     </div>
   );
 };
