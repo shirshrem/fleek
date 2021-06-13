@@ -17,6 +17,5 @@
   "dependencies": {
     "express": "^4.17.1",
     "torrent-search-api": "^2.1.4"
-
   }
 }
