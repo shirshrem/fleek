@@ -1,21 +1,6 @@
-import { useState } from "react";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListItemText from "@material-ui/core/ListItemText";
-import Avatar from "@material-ui/core/Avatar";
-import IconButton from "@material-ui/core/IconButton";
-import FormGroup from "@material-ui/core/FormGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import FolderIcon from "@material-ui/icons/Folder";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import ListCard from "./components/ListCard";
@@ -67,7 +52,14 @@ const reducer = (currentList, currentValue) => {
   return currentList;
 };
 
-const PrintMyList = ({ myList, setMyList, torrents, setTorrents }) => {
+const PrintMyList = ({
+  myList,
+  setMyList,
+  torrents,
+  setTorrents,
+  loading,
+  setLoading,
+}) => {
   return myList.length > 0 ? (
     <div>
       <Container>
@@ -80,6 +72,8 @@ const PrintMyList = ({ myList, setMyList, torrents, setTorrents }) => {
                 setMyList={setMyList}
                 torrents={torrents}
                 setTorrents={setTorrents}
+                loading={loading}
+                setLoading={setLoading}
               ></ListCard>
             </Grid>
           ))}
@@ -87,7 +81,7 @@ const PrintMyList = ({ myList, setMyList, torrents, setTorrents }) => {
       </Container>
     </div>
   ) : (
-    <h2>Your list is empty</h2>
+    <h2>Your list is empty ...</h2>
   );
 };
 

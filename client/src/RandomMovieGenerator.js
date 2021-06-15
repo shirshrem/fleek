@@ -1,15 +1,9 @@
 import { useState } from "react";
 import OutputList from "./OutputList";
 import { Button } from "@material-ui/core";
-import { Input } from "@material-ui/core";
-import { TextField } from "@material-ui/core";
-
-import { Typography } from "@material-ui/core";
 import RandomMoviePreferences from "./RandomMoviePreferences";
 import ChooseGeners from "./ChooseGenres";
-
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
 const API_KEY = "e411d2086029c6a6bb841f8bbfa4fd18";
 const url =
@@ -26,9 +20,21 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
     nowPlaying: false,
   });
 
-  const genresStr = genres.map((genre) => genre.name).join("%20%7C%20");
   const [searchByPreferences, setSearchByPreferences] = useState();
+  const [loading, setLoading] = useState(false);
 
+  const currentPreferencesToSearch = () => {
+    let genresStr = genres.map((genre) => genre.name).join("%20%7C%20");
+    let searchTerm =
+      "https://api.themoviedb.org/3/discover/movie?api_key=" +
+      API_KEY +
+      "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1with_genres=" +
+      genresStr;
+    if (preferences.newMovies) searchTerm.concat("&release_date.gte=2019");
+    if (preferences.topRated) searchTerm.concat("&vote_average.gte=9");
+    if (preferences.lessthan2) searchTerm.concat("&with_runtime.lte=120");
+    return searchTerm;
+  };
   return (
     <div>
       <RandomMoviePreferences
@@ -38,39 +44,23 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
       <ChooseGeners genres={genres} setGenres={setGenres} />
 
       <Button
+        disabled={loading}
         onClick={() => {
-          console.log(genres);
-          setSearchByPreferences(
-            "https://api.themoviedb.org/3/discover/movie?api_key=" +
-              API_KEY +
-              "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1with_genres=" +
-              genresStr
-          );
-          if (preferences.newMovies)
-            setSearchByPreferences(
-              searchByPreferences,
-              ..."&release_date.gte=2019"
-            );
-          if (preferences.topRated)
-            setSearchByPreferences(
-              searchByPreferences,
-              ..."&vote_average.gte=90"
-            );
-          if (preferences.lessthan2)
-            setSearchByPreferences(
-              searchByPreferences,
-              ..."&with_runtime.lte=120"
-            );
-          console.log(searchByPreferences);
+          setLoading(true);
+          setSearchByPreferences(currentPreferencesToSearch());
+          console.log("searchByPreferences: " + searchByPreferences);
+
           fetch(searchByPreferences)
-            .then((res) => res.json())
+            .then((results) => results.json())
             .then((data) => {
-              console.log("Data:", data);
               setMovies(data.results);
+              setLoading(false);
             })
-            .catch((error) => {
-              console.log("error", error);
+            .catch(function (err) {
+              console.log(err);
+              setLoading(false);
             });
+          console.log(movies);
         }}
       >
         Generate!

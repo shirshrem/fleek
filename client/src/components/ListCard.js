@@ -14,6 +14,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudDownloadRoundedIcon from "@material-ui/icons/CloudDownloadRounded";
+import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,8 +38,23 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
 }));
-
-const ListCard = ({ movie, myList, setMyList, torrents, setTorrents }) => {
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "Open Sans, sans-serif",
+  },
+  root: {
+    padding: "50px",
+  },
+});
+const ListCard = ({
+  movie,
+  myList,
+  setMyList,
+  torrents,
+  setTorrents,
+  loading,
+  setLoading,
+}) => {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -47,81 +63,85 @@ const ListCard = ({ movie, myList, setMyList, torrents, setTorrents }) => {
   };
 
   return (
-    <Card className={classes.root}>
-      <CardHeader
-        action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={movie.title}
-        subheader={movie.year}
-      />
-      <CardMedia
-        className={classes.media}
-        image={
-          movie.posterPath
-            ? movie.posterPath
-            : "https://www.pikpng.com/pngl/m/101-1012818_filmstrip-clipart-movie-themed-movie-film-clipart-png.png"
-        }
-      />
+    <ThemeProvider theme={theme}>
+      <Card className={classes.root}>
+        <CardHeader
+          action={
+            <IconButton aria-label="settings">
+              <MoreVertIcon />
+            </IconButton>
+          }
+          title={movie.title}
+          subheader={movie.year}
+        />
+        <CardMedia
+          className={classes.media}
+          image={
+            movie.posterPath
+              ? movie.posterPath
+              : "https://www.pikpng.com/pngl/m/101-1012818_filmstrip-clipart-movie-themed-movie-film-clipart-png.png"
+          }
+        />
 
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          {movie.rank}
-        </Typography>
-      </CardContent>
-      <CardActions disableSpacing>
-        <IconButton
-          aria-label="download"
-          onClick={() => {
-            fetch("searchTerm/" + movie.title)
-              .then((results) => results.json())
-              .then((torrents) => {
-                setTorrents(torrents);
-              })
-              .then((x) => console.log(x))
-              .catch(function (err) {
-                console.log(err);
-              });
-          }}
-        >
-          <CloudDownloadRoundedIcon />
-        </IconButton>
-        <IconButton
-          aria-label="Delete"
-          edge="end"
-          aria-label="delete"
-          onClick={() => {
-            setMyList([
-              ...myList,
-              {
-                type: "delete",
-                id: movie.id,
-              },
-            ]);
-          }}
-        >
-          <DeleteIcon />
-        </IconButton>
-        <IconButton
-          className={clsx(classes.expand, {
-            [classes.expandOpen]: expanded,
-          })}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </IconButton>
-      </CardActions>
-      <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Overview:</Typography>
-          <Typography paragraph>{movie.overview}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {movie.rank}
+          </Typography>
         </CardContent>
-      </Collapse>
-    </Card>
+        <CardActions disableSpacing>
+          <IconButton
+            aria-label="download"
+            disabled={loading}
+            onClick={() => {
+              setLoading(true);
+              fetch("searchTerm/" + movie.title)
+                .then((results) => results.json())
+                .then((torrents) => {
+                  setTorrents(torrents);
+                  setLoading(false);
+                })
+                .catch(function (err) {
+                  console.log(err);
+                  setLoading(false);
+                });
+            }}
+          >
+            <CloudDownloadRoundedIcon />
+          </IconButton>
+          <IconButton
+            aria-label="Delete"
+            edge="end"
+            onClick={() => {
+              setMyList([
+                ...myList,
+                {
+                  type: "delete",
+                  id: movie.id,
+                },
+              ]);
+            }}
+          >
+            <DeleteIcon />
+          </IconButton>
+          <IconButton
+            className={clsx(classes.expand, {
+              [classes.expandOpen]: expanded,
+            })}
+            onClick={handleExpandClick}
+            aria-expanded={expanded}
+            aria-label="show more"
+          >
+            <ExpandMoreIcon />
+          </IconButton>
+        </CardActions>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography paragraph>Overview:</Typography>
+            <Typography paragraph>{movie.overview}</Typography>
+          </CardContent>
+        </Collapse>
+      </Card>
+    </ThemeProvider>
   );
 };
 

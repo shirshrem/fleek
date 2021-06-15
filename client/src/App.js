@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import "./index.css";
 import Navbar from "./Navbar";
 import Home from "./Home";
@@ -27,12 +27,10 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-
       <Router>
         <div className="App">
-
           <Navbar />
-          <img className = "Logo" src={Logo} alt=""/>
+          <img className="Logo" src={Logo} alt="" />
 
           <div className="content"></div>
           {/* Shir:  stops at the first mach! */}
@@ -68,4 +66,5 @@ function App() {
     </ThemeProvider>
   );
 }
+
 export default App;

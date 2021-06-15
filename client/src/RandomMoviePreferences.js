@@ -1,5 +1,4 @@
 import React from "react";
-import { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import FormLabel from "@material-ui/core/FormLabel";
 import FormControl from "@material-ui/core/FormControl";
@@ -148,13 +147,8 @@ const RandomMoviePreferences = ({ preferences, setPreferences }) => {
     });
   };
 
-  const {
-    fromMyList,
-    newMovies,
-    topRated,
-    nowPlaying,
-    lessthan2,
-  } = preferences;
+  const { fromMyList, newMovies, topRated, nowPlaying, lessthan2 } =
+    preferences;
   const error =
     [fromMyList, newMovies, topRated, nowPlaying, lessthan2].filter((v) => v)
       .length !== 5;

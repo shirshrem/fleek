@@ -1,9 +1,7 @@
 import React from 'react'
-import { useState } from "react";
 import MovieCard from "./components/MovieCard";
 import { Grid } from "@material-ui/core";
 import { Container } from "@material-ui/core";
-import { Paper } from "@material-ui/core";
 
 const OutputList = ({ movies, myList, setMyList }) => {
   return movies ? (

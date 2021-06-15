@@ -1,21 +1,23 @@
-import React from 'react'
+import React from "react";
 import { useState } from "react";
 import PrintMyList from "./PrintMyList";
 
 import TorrentTable from "./components/TorrentTable";
 
 const MyList = ({ myList, setMyList, torrents, setTorrents }) => {
+  const [loading, setLoading] = useState(false);
   return (
-    <div>
-      {" "}
+    <>
       <PrintMyList
         myList={myList}
         setMyList={setMyList}
         torrents={torrents}
         setTorrents={setTorrents}
+        loading={loading}
+        setLoading={setLoading}
       />
-      <TorrentTable torrents={torrents}></TorrentTable>
-    </div>
+      <TorrentTable torrents={torrents} loading={loading}></TorrentTable>
+    </>
   );
 };
 

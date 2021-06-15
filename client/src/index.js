@@ -3,14 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { ThemeProvider } from "@material-ui/core/styles";
 // import theme from "./theme";
 
 ReactDOM.render(
   // SHIR: TAKING THE APP COMPONENT AND RENDER IT TO THE BROWSER AT "ROOT" POSITION
   <React.StrictMode>
     {/* <ThemeProvider theme={theme}> */}
-      <App />
+    <App />
     {/* </ThemeProvider> */}
   </React.StrictMode>,
   document.getElementById("root")
