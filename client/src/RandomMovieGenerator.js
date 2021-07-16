@@ -6,12 +6,26 @@ import ChooseGeners from "./ChooseGenres";
 import React from "react";
 
 const API_KEY = "e411d2086029c6a6bb841f8bbfa4fd18";
-const url =
-  "https://api.themoviedb.org/3/search/movie?api_key=e411d2086029c6a6bb841f8bbfa4fd18&language=en-US&page=1&include_adult=false&query=";
+const currentPreferencesToSearch = (genres, preferences) => {
+  let searchTerm =
+    "https://api.themoviedb.org/3/discover/movie?api_key=" +
+    API_KEY +
+    "&with_genres=" +
+    genres.map((genre) => genre.id).join(",");
+
+  //api.themoviedb.org/3/discover/movie?api_key=e411d2086029c6a6bb841f8bbfa4fd18&with_genres=35,12
+
+  if (preferences.newMovies) searchTerm.concat("&release_date.gte=2019");
+  if (preferences.topRated) searchTerm.concat("&vote_average.gte=9");
+  if (preferences.lessthan2) searchTerm.concat("&with_runtime.lte=120");
+  console.log(searchTerm);
+
+  return searchTerm;
+};
 
 const RandomMovieGenerator = ({ myList, setMyList }) => {
   const [movies, setMovies] = useState(null); // random movies list
-  const [genres, setGenres] = useState([]); // list of prefered genets
+  const [genres, setGenres] = useState([]); // list of chosen geners
 
   const [preferences, setPreferences] = useState({
     fromMyList: false,
@@ -20,21 +34,8 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
     nowPlaying: false,
   });
 
-  const [searchByPreferences, setSearchByPreferences] = useState();
   const [loading, setLoading] = useState(false);
 
-  const currentPreferencesToSearch = () => {
-    let genresStr = genres.map((genre) => genre.name).join("%20%7C%20");
-    let searchTerm =
-      "https://api.themoviedb.org/3/discover/movie?api_key=" +
-      API_KEY +
-      "&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1with_genres=" +
-      genresStr;
-    if (preferences.newMovies) searchTerm.concat("&release_date.gte=2019");
-    if (preferences.topRated) searchTerm.concat("&vote_average.gte=9");
-    if (preferences.lessthan2) searchTerm.concat("&with_runtime.lte=120");
-    return searchTerm;
-  };
   return (
     <div>
       <RandomMoviePreferences
@@ -47,10 +48,7 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
         disabled={loading}
         onClick={() => {
           setLoading(true);
-          setSearchByPreferences(currentPreferencesToSearch());
-          console.log("searchByPreferences: " + searchByPreferences);
-
-          fetch(searchByPreferences)
+          fetch(currentPreferencesToSearch(genres, preferences))
             .then((results) => results.json())
             .then((data) => {
               setMovies(data.results);

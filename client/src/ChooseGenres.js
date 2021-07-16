@@ -1,25 +1,17 @@
-/* eslint-disable no-use-before-define */
 import React from "react";
-import Chip from "@material-ui/core/Chip";
 import TextField from "@material-ui/core/TextField";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 
-const ChooseGenres = ({ genres, setGenres }) => {
+const ChooseGenres = ({ setGenres }) => {
   return (
     <Autocomplete
       multiple
       id="fixed-tags"
-      genres={genres}
+      options={allGenres}
+      getOptionLabel={(option) => option.name}
       onChange={(event, newValue) => {
         setGenres(newValue);
       }}
-      options={allGenres}
-      getOptionLabel={(option) => option.name}
-      renderTags={(tagValue, getTagProps) =>
-        tagValue.map((option, index) => (
-          <Chip label={option.name} {...getTagProps({ index })} />
-        ))
-      }
       style={{ width: 500 }}
       renderInput={(params) => (
         <TextField {...params} label="Choose Genres:" variant="outlined" />

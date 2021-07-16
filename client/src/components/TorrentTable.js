@@ -77,7 +77,6 @@ const theme = createMuiTheme({
 
 const TorrentTable = ({ torrents, loading }) => {
   const classes = useStyles();
-
   console.log(torrents);
   return loading ? (
     <ThemeProvider theme={theme}>
@@ -86,7 +85,7 @@ const TorrentTable = ({ torrents, loading }) => {
         <LinearProgress color={classes.palette} />
       </div>
     </ThemeProvider>
-  ) : torrents.length > 0 ? (
+  ) : torrents.filter((torrent) => torrent.magnet).length > 0 ? (
     <ThemeProvider theme={theme}>
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
@@ -101,7 +100,7 @@ const TorrentTable = ({ torrents, loading }) => {
           </TableHead>
           <TableBody>
             {torrents
-              .filter((torrent) => torrent.link != null)
+              .filter((torrent) => torrent.magnet != null)
               .map((torrent) => (
                 <StyledTableRow key={torrent?.title}>
                   <StyledTableCell component="th" scope="row">
@@ -132,6 +131,8 @@ const TorrentTable = ({ torrents, loading }) => {
         </Table>
       </TableContainer>
     </ThemeProvider>
-  ) : null;
+  ) : (
+    <div>Nothing found...</div>
+  );
 };
 export default TorrentTable;
