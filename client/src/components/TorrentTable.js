@@ -71,9 +71,6 @@ const theme = createMuiTheme({
     },
   },
 });
-// const createData = (title, peers, seeds, size) => {
-//   return { title, peers, seeds, size };
-// };
 
 const TorrentTable = ({ torrents, loading }) => {
   const classes = useStyles();

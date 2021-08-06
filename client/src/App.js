@@ -5,7 +5,7 @@ import Home from "./Home";
 import Search from "./Search";
 import About from "./About";
 import MyList from "./MyList";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { useState } from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import RandomMovieGenerator from "./RandomMovieGenerator";

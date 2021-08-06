@@ -1,44 +1,7 @@
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Container } from "@material-ui/core";
 import ListCard from "./components/ListCard";
-
-const theme = createMuiTheme({
-  pallete: {
-    primary: {
-      main: "#028476",
-    },
-    secondary: { main: "#028476" },
-  },
-  typography: {
-    fontFamily: "Quicksand",
-    fontWeightLight: 400,
-    fontWeightRegular: 500,
-    fontWeightMedium: 600,
-    fontWeightBold: 700,
-  },
-});
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    maxWidth: 752,
-  },
-  btn: {},
-  demo: {
-    backgroundColor: theme.palette.background.paper,
-  },
-  title: {
-    margin: theme.spacing(0, 4, 2),
-    textAlign: "center",
-  },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
-}));
 
 const reducer = (currentList, currentValue) => {
   if (
