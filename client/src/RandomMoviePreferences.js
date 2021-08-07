@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
   formControl: {
     margin: theme.spacing(3),
+    fontFamily: "Raleway",
   },
 }));
 
@@ -34,7 +35,7 @@ const RandomMoviePreferences = ({ preferences, setPreferences }) => {
 
   return (
     <FormControl component="fieldset" className={classes.formControl}>
-      <FormLabel component="legend"> </FormLabel>
+      <FormLabel component="legend" className={classes.FormLabel}> </FormLabel>
       <FormGroup>
         {/* <FormControlLabel
           control={

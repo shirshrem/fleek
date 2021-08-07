@@ -4,14 +4,9 @@ import { Button } from "@material-ui/core";
 import RandomMoviePreferences from "./RandomMoviePreferences";
 import ChooseGeners from "./ChooseGenres";
 import React from "react";
-import Math from "Math";
 
 const API_KEY = "e411d2086029c6a6bb841f8bbfa4fd18";
-const getRandomIntInclusive = (min, max) => {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
-};
+
 const currentPreferencesToSearch = (genres, preferences, page) => {
   let searchTerm =
     "https://api.themoviedb.org/3/discover/movie?api_key=" +
@@ -26,13 +21,14 @@ const currentPreferencesToSearch = (genres, preferences, page) => {
   if (preferences.topRated) searchTerm += "&vote_average.gte=8.5";
   if (preferences.lessthan2) searchTerm += "&with_runtime.lte=120";
   searchTerm += "&page=" + page;
-  console.log(searchTerm);
 
   return searchTerm;
 };
 const RandomMovieGenerator = ({ myList, setMyList }) => {
   const [movies, setMovies] = useState(null); // random movies list
   const [genres, setGenres] = useState([]); // list of chosen geners
+  const [random, setRandom] = useState([]);
+  const [moviesToShow, setMoviesToShow] = useState([]);
 
   const [preferences, setPreferences] = useState({
     fromMyList: false,
@@ -56,6 +52,20 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
   const getPage = (page) => {
     return currentPreferencesToSearch(genres, preferences, page);
   };
+  const setMoviesAccordingToPreferences = () => {
+    getXFirstPages(5)
+      .then((data) => Promise.all(data.map((x) => x.json())))
+      .then((data) => data.map((x) => x.results))
+      .then((arrayOfArrays) => [].concat.apply([], arrayOfArrays))
+      .then((data) => {
+        setMovies(data);
+      })
+      .catch(function (err) {
+        console.log(err);
+        setLoading(false);
+      });
+    console.log(movies);
+  };
   return (
     <div>
       <RandomMoviePreferences
@@ -67,25 +77,40 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
       <Button
         disabled={loading}
         onClick={() => {
-          getXFirstPages(5)
-            .then((data) => Promise.all(data.map((x) => x.json())))
-            .then((data) => data.map((x) => x.results))
-            .then((arrayOfArrays) => [].concat.apply([], arrayOfArrays))
-            .then((data) => {
-              setMovies(data);
-              console.log(data);
-            })
-            .catch(function (err) {
-              console.log(err);
-              setLoading(false);
-            });
-          console.log(movies);
+          setMoviesAccordingToPreferences();
+          setMoviesToShow(100);
+          setRandom(false);
         }}
       >
-        Generate!
+        Generate List!
       </Button>
-
-      <OutputList movies={movies} myList={myList} setMyList={setMyList} />
+      <Button
+        disabled={loading}
+        onClick={() => {
+          setMoviesAccordingToPreferences();
+          setMoviesToShow(5);
+          setRandom(true);
+        }}
+      >
+        Generate 5!
+      </Button>
+      <Button
+        disabled={loading}
+        onClick={() => {
+          setMoviesAccordingToPreferences();
+          setMoviesToShow(1);
+          setRandom(true);
+        }}
+      >
+        i'm feeling lucky :)
+      </Button>
+      <OutputList
+        movies={movies}
+        myList={myList}
+        setMyList={setMyList}
+        random={random}
+        moviesToShow={moviesToShow}
+      />
     </div>
   );
 };
