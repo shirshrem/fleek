@@ -21,8 +21,8 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 345,
   },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
+    width: 350,
+    height: 350,
   },
   expand: {
     transform: "rotate(0deg)",
@@ -34,16 +34,13 @@ const useStyles = makeStyles((theme) => ({
   expandOpen: {
     transform: "rotate(180deg)",
   },
-  avatar: {
-    backgroundColor: red[500],
-  },
 }));
 const theme = createMuiTheme({
   typography: {
     fontFamily: "Open Sans, sans-serif",
   },
   root: {
-    padding: "50px",
+    padding: "111110px",
   },
 });
 const ListCard = ({

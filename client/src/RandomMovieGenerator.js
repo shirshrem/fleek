@@ -53,7 +53,7 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
     return currentPreferencesToSearch(genres, preferences, page);
   };
   const setMoviesAccordingToPreferences = () => {
-    getXFirstPages(5)
+    getXFirstPages(20)
       .then((data) => Promise.all(data.map((x) => x.json())))
       .then((data) => data.map((x) => x.results))
       .then((arrayOfArrays) => [].concat.apply([], arrayOfArrays))
@@ -78,8 +78,8 @@ const RandomMovieGenerator = ({ myList, setMyList }) => {
         disabled={loading}
         onClick={() => {
           setMoviesAccordingToPreferences();
-          setMoviesToShow(100);
-          setRandom(false);
+          setMoviesToShow(50);
+          setRandom(true);
         }}
       >
         Generate List!
